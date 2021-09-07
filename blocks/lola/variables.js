@@ -39,9 +39,9 @@ Blockly.defineBlocksWithJsonArray([
         }
         ],
         "inputsInline": false,
+        "style": "variable_blocks",
         "previousStatement": null,
         "nextStatement": null,
-        "colour": 270,
         "tooltip": "",
         "helpUrl": ""
     },
@@ -103,7 +103,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": 230,
+        "style": "variable_blocks",
         "tooltip": "",
         "helpUrl": ""
     }

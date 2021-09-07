@@ -42,6 +42,29 @@ var lolaToolbox = `
 // Lola generator
 const lolaGenerator = new Blockly.Generator('Lola');
 
+lolaGenerator.ORDER_ATOMIC = 0;            // 0 "" ...
+lolaGenerator.ORDER_COLLECTION = 1;        // tuples, lists, dictionaries
+lolaGenerator.ORDER_STRING_CONVERSION = 1; // `expression...`
+lolaGenerator.ORDER_MEMBER = 2.1;          // . []
+lolaGenerator.ORDER_FUNCTION_CALL = 2.2;   // ()
+lolaGenerator.ORDER_EXPONENTIATION = 3;    // **
+lolaGenerator.ORDER_UNARY_SIGN = 4;        // + -
+lolaGenerator.ORDER_BITWISE_NOT = 4;       // ~
+lolaGenerator.ORDER_MULTIPLICATIVE = 5;    // * / // %
+lolaGenerator.ORDER_ADDITIVE = 6;          // + -
+lolaGenerator.ORDER_BITWISE_SHIFT = 7;     // << >>
+lolaGenerator.ORDER_BITWISE_AND = 8;       // &
+lolaGenerator.ORDER_BITWISE_XOR = 9;       // ^
+lolaGenerator.ORDER_BITWISE_OR = 10;       // |
+lolaGenerator.ORDER_RELATIONAL = 11;       // in, not in, is, is not,
+                                            //     <, <=, >, >=, <>, !=, ==
+lolaGenerator.ORDER_LOGICAL_NOT = 12;      // not
+lolaGenerator.ORDER_LOGICAL_AND = 13;      // and
+lolaGenerator.ORDER_LOGICAL_OR = 14;       // or
+lolaGenerator.ORDER_CONDITIONAL = 15;      // if else
+lolaGenerator.ORDER_LAMBDA = 16;           // lambda
+lolaGenerator.ORDER_NONE = 99;             // (...)
+
 // Function for getting all blocks where more than one statement is placed
 lolaGenerator.scrub_ = function(block, code, opt_thisOnly) {
   const nextBlock =
@@ -169,20 +192,10 @@ lolaGenerator['variable_declaration_block'] = function(block) {
   return test;
 };
 
-// Variable declaration INOUT type
-lolaGenerator['variable_declaration_in_out_type_block'] = function(block) {
-  const variable_declaration_in_out_type = block.getFieldValue('variable_declaration_in_out_type')
-
-  const variable_in_out =
-      lolaGenerator.statementToCode(block, 'variable_declaration_in_out');
-
-  return variable_declaration_in_out_type + ' ' + variable_in_out;
-};
-
 // Variable setter
 lolaGenerator['variables_set'] = function(block) {
   var argument0 = lolaGenerator.valueToCode(block, 'VALUE',
-      Blockly.Python.ORDER_NONE) || '0';
+      lolaGenerator.ORDER_NONE) || '0';
   var varName = lolaGenerator.nameDB_.getName(block.getFieldValue('VAR'),
       Blockly.VARIABLE_CATEGORY_NAME);
 
@@ -193,15 +206,15 @@ lolaGenerator['variables_set'] = function(block) {
 // Variable getter
 lolaGenerator['variables_get'] = function(block) {
   var value = lolaGenerator.valueToCode(block, 'VALUE',
-      Blockly.Python.ORDER_NONE) || '0';
-  return [value, Blockly.Python.ORDER_NONE]
+  lolaGenerator.ORDER_NONE) || '0';
+  return [value, lolaGenerator.ORDER_NONE]
 };
 
 // Variable name getter
 lolaGenerator['variables_name_get'] = function(block) {
   var varName = lolaGenerator.nameDB_.getName(block.getFieldValue('VAR'),
       Blockly.VARIABLE_CATEGORY_NAME);
-  return [varName, Blockly.Python.ORDER_NONE]
+  return [varName, lolaGenerator.ORDER_NONE]
 };
 
 // Comment block
@@ -213,11 +226,11 @@ lolaGenerator['comment_block'] = function(block) {
 // Math arithmetic block
 lolaGenerator['math_arithmetic'] = function(block) {
   var OPERATORS = {
-    'ADD': ['+', Blockly.Python.ORDER_ADDITIVE],
-    'MINUS': ['-', Blockly.Python.ORDER_ADDITIVE],
-    'MULTIPLY': ['*', Blockly.Python.ORDER_MULTIPLICATIVE],
-    'DIVIDE': ['/', Blockly.Python.ORDER_MULTIPLICATIVE],
-    'POWER': ['**', Blockly.Python.ORDER_EXPONENTIATION]
+    'ADD': ['+', lolaGenerator.ORDER_ADDITIVE],
+    'MINUS': ['-', lolaGenerator.ORDER_ADDITIVE],
+    'MULTIPLY': ['*', lolaGenerator.ORDER_MULTIPLICATIVE],
+    'DIVIDE': ['/', lolaGenerator.ORDER_MULTIPLICATIVE],
+    'POWER': ['**', lolaGenerator.ORDER_EXPONENTIATION]
   };
   var tuple = OPERATORS[block.getFieldValue('OP')];
   var operator = tuple[0];
@@ -231,11 +244,11 @@ lolaGenerator['math_arithmetic'] = function(block) {
 // Math arithmetic three block 
 lolaGenerator['math_arithmetic_three'] = function(block) {
   var OPERATORS = {
-    'ADD': ['+', Blockly.Python.ORDER_ADDITIVE],
-    'MINUS': ['-', Blockly.Python.ORDER_ADDITIVE],
-    'MULTIPLY': ['*', Blockly.Python.ORDER_MULTIPLICATIVE],
-    'DIVIDE': ['/', Blockly.Python.ORDER_MULTIPLICATIVE],
-    'POWER': ['**', Blockly.Python.ORDER_EXPONENTIATION]
+    'ADD': ['+', lolaGenerator.ORDER_ADDITIVE],
+    'MINUS': ['-', lolaGenerator.ORDER_ADDITIVE],
+    'MULTIPLY': ['*', lolaGenerator.ORDER_MULTIPLICATIVE],
+    'DIVIDE': ['/', lolaGenerator.ORDER_MULTIPLICATIVE],
+    'POWER': ['**', lolaGenerator.ORDER_EXPONENTIATION]
   };
   var tuple1 = OPERATORS[block.getFieldValue('OP')];
   var operator1 = tuple1[0];
@@ -258,13 +271,13 @@ lolaGenerator['math_number'] = function(block) {
   var order;
   if (code == Infinity) {
     code = 'float("inf")';
-    order = Blockly.Python.ORDER_FUNCTION_CALL;
+    order = lolaGenerator.ORDER_FUNCTION_CALL;
   } else if (code == -Infinity) {
     code = '-float("inf")';
-    order = Blockly.Python.ORDER_UNARY_SIGN;
+    order = lolaGenerator.ORDER_UNARY_SIGN;
   } else {
-    order = code < 0 ? Blockly.Python.ORDER_UNARY_SIGN :
-            Blockly.Python.ORDER_ATOMIC;
+    order = code < 0 ? lolaGenerator.ORDER_UNARY_SIGN :
+    lolaGenerator.ORDER_ATOMIC;
   }
   return [code, order];
 };
@@ -272,7 +285,7 @@ lolaGenerator['math_number'] = function(block) {
 // Constant declaration block
 lolaGenerator['constant_declaration_block'] = function(block) {
   var argument0 = lolaGenerator.valueToCode(block, 'variable_value',
-      Blockly.Python.ORDER_NONE) || '0';
+    lolaGenerator.ORDER_NONE) || '0';
   var varName = lolaGenerator.nameDB_.getName(block.getFieldValue('variable'),
       Blockly.VARIABLE_CATEGORY_NAME);
   return 'CONST ' + varName + ':=' + argument0 + ';'
@@ -298,6 +311,29 @@ lolaGenerator['lists_create_with'] = function(block) {
   return [codeString, lolaGenerator.PRECEDENCE];
 };
 
+// Loop
+lolaGenerator['controls_for'] = function(block) {
+  var variable0 = lolaGenerator.nameDB_.getName(
+    block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+  var argument0 = lolaGenerator.valueToCode(block, 'FROM',
+    lolaGenerator.ORDER_NONE) || '0';
+  var argument1 = lolaGenerator.valueToCode(block, 'TO',
+    lolaGenerator.ORDER_NONE) || '0';
+  var increment = lolaGenerator.valueToCode(block, 'BY',
+    lolaGenerator.ORDER_NONE) || '1';
+  var branch = lolaGenerator.statementToCode(block, 'DO');
+
+
+  code = 'FOR ' + variable0 + ':=' + argument0 + '..' + argument1 + ' DO\n'
+  code = code + branch + '\n'
+  code = code + 'END;'
+
+  
+  return code
+
+
+}
+
 // Text
 lolaGenerator['text'] = function(block) {
   var text_value = block.getFieldValue('TEXT');
@@ -306,11 +342,4 @@ lolaGenerator['text'] = function(block) {
 
 lolaGenerator['logic_null'] = function(block) {
   return ['null', lolaGenerator.PRECEDENCE];
-};
-
-lolaGenerator['object'] = function(block) {
-  const statement_members =
-      lolaGenerator.statementToCode(block, 'MEMBERS');
-  const code = '{\n' + statement_members + '\n}';
-  return [code, lolaGenerator.PRECEDENCE];
 };

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Blockly Playground</title>
+<title>Lola-Blockly generator</title>
 <script src="./blockly_uncompressed.js"></script>
 
 <!-- Generators -->
@@ -109,7 +109,7 @@ function configurePlayground(playground) {
 
 function initPlayground() {
   if (typeof window.createPlayground === 'undefined') {
-    alert('You need to run \'npm install\' in order to use this playground.');
+    alert("You need to run 'npm install' in order to use this Lola-Blockly generator.");
     return;
   }
   var defaultOptions = {
