@@ -11,6 +11,8 @@ var lolaToolbox = `
     <block type="variables_set"></block>
     <block type="variables_get"></block>
     <block type="variables_name_get"></block>
+    <block type="constant_declaration_block"/>
+    <block type="variable_declaration_block"></block>
   </category>
 
   <category name="Loops">
@@ -20,7 +22,6 @@ var lolaToolbox = `
   <category name="Text">
     <block type="text"><field name="TEXT"/></block>
     <block type="comment_block"/>
-    <block type="constant_declaration_block"/>
   </category>
 
   <category name="Math">
@@ -30,19 +31,10 @@ var lolaToolbox = `
     <block type="math_single"/>
   </category>
 
-  <category name="idk">
+  <category name="Other">
     <block type="logic_boolean"><field name="BOOL">TRUE</field></block>
     <block type="logic_null"/>
     <block type="lists_create_with"><mutation items="3"/></block>
-    <block type="variable_declaration_block"></block>
-    <block type="variable_declaration_in_out_type_block"></block>
-    <block type="object"/>
-    <block type="variable_declaration_type_single_block"/>
-    <block type="variable_declaration_type_multiple_block"/>
-    <block type="variable_declaration_block_full_block"/>
-    <block type="variable_declaration_in_out_type_block"/>
-    <block type="variable_declaration_name_block"/>
-    <block type="member"></block>
   </category>
 </xml>
 `
