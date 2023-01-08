@@ -1,6 +1,3 @@
 [submodule "Lolac"]
 	path = Lolac
 	url = https://github.com/rochus-keller/Lolac.git
-[submodule "lola-blockly-app"]
-	path = lola-blockly-app
-	url = https://github.com/marusqq/lola-blockly-app
