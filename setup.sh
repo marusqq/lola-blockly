@@ -54,8 +54,8 @@ echo -----------------------
 cd tests
 ../Lola Multiplier.Lola Multiplier.v
 
-compiled_file="Multiplier_test.v"
-correct_file="Multiplier.v"
+correct_file="Multiplier_test_unix.v"
+compiled_file="Multiplier.v"
 
 echo -----------------------
 echo "Comparing compiled file with correctly compiled one"
