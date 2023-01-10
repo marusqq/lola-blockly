@@ -1,0 +1,9 @@
+Dangling Lola symlink: no cloned Lolac submodule:
+- git submodule init, 
+- git submodule update
+
+
+fatal error: bits/c++config.h: No such file or directory: c++ compilers are missing, install gcc and g++
+- sudo apt install g++
+- sudo apt install build-essential
+- sudo apt-get install g++-multilib
