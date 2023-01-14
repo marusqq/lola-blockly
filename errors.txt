@@ -12,3 +12,8 @@
 
 # While running 'npm start' in lola-blockly/react-lola-blockly-app/
 - npm install inside
+
+
+# No sprites / music load
+- add symlink creation from 
+react-lola-blockly-app/node_modules/blockly/media => public/media
