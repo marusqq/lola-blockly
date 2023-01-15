@@ -10,4 +10,3 @@ Basic requirements:
 - Confirm setup.sh and setup.cmd work on fresh windows / fresh ubuntu 
 - Maybe find a way to visualise verilog compiled files
 - Get page hosted with https:/ and a custom domain
-- Fully remove last blockly integration
